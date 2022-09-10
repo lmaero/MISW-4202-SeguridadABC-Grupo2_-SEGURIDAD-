@@ -3,6 +3,7 @@
 mac='Darwin'
 os_name=`uname`
 
+# Obtener el tipo de sistema operativo
 if [[ ${os_name} == ${mac} ]];
 then
     process=$(ps aux | grep -i --color flask | cut '-d ' -f 7- | cut -d ' ' -f 1)
@@ -10,6 +11,7 @@ else
     process=$(ps aux | grep -i --color flask | cut '-d ' -f 6- | cut -d ' ' -f 1)
 fi
 
+# Extrae el process id de cada microservicio y terminalo
 for i in ${process}:; do
     if [[ ${i} == *":"* ]];
     then        

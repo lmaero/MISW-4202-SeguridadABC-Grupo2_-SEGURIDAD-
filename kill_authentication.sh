@@ -1,15 +1,13 @@
 #!/bin/bash
 
-mac='Linux'
+mac='Darwin'
 os_name=$(uname)
-six_characters=6
-seven_characters=7
 
 # Obtener el tipo de sistema operativo
 if [[ ${os_name} == ${mac} ]]; then
   process=$(ps aux | grep -i --color "flask run -p 5001" | cut '-d ' -f 7- | cut -d ' ' -f 1)
-  if [[ ${process} == *":"* ] || -z "${process}"  ]]; then
-    process=$(ps aux | grep -i --color "flask run -p 5001" | cut '-d ' -f 6- | cut -d ' ' -f 1)  
+  if [[ ${process} == *":"* || -z "${process}"  ]]; then
+    process=$(ps aux | grep -i --color "flask run -p 5001" | cut '-d ' -f 6- | cut -d ' ' -f 1)
   fi
 else
   process=$(ps aux | grep -i --color "flask run -p 5001" | cut '-d ' -f 6- | cut -d ' ' -f 1)

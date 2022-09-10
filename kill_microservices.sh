@@ -1,10 +1,15 @@
 #!/bin/bash
 
-process=$(ps aux | grep -i --color flask | cut '-d ' -f 6- | cut -d ' ' -f 1)
+process=$(ps aux | grep -i --color flask | cut '-d ' -f 7- | cut -d ' ' -f 1)
 
 for i in ${process}:; do
-  echo "${i}"
-  echo "Process to killed ${i}"
-  kill ${i}
-
+    if [[ ${i} == *":"* ]];
+    then        
+        process_id=`echo ${i} |cut -d ':' -f 1`
+        echo "Process id to kill ${process_id}"
+        kill ${process_id}
+    else
+        echo "Process id to kill ${i}"
+        kill ${i}
+    fi
 done

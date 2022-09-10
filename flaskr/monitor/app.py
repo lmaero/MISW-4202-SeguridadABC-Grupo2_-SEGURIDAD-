@@ -15,20 +15,29 @@ api = Api(app)
 class VistaMonitor(Resource):
     def get(self):
         try:
+            print('---------------------------------------------------------------')
             response_auth = requests.post(f"http://127.0.0.1:5001/auth/login",
-                                          json={"usuario": "monitor", "contraseña": "monitor"})
-            print('Estado microservicio auth:', response_auth.status_code)
-            print('Contenido respuesta microservicio auth:', response_auth.content)
+                                          json={"usuario": "monitor"})
+            print('Authentication Microservice Status:', response_auth.status_code)
+            print('Authentication Microservice Content:', response_auth.content)
+
             print('---------------------------------------------------------------')
             response_notification = requests.post(f"http://127.0.0.1:5002/notification/send",
-                                                  json={"alerta_tipo": "ALERTA", "alerta_msg": "ALERTA!!!"})
-            print('Estado microservicio notification:', response_notification.status_code)
-            print('Contenido respuesta microservicio notification:', response_notification.content)
-            print('---------------------------------------------------------------')
+                                                  json={"alerta_tipo": "ALERTA", "alerta_msg": "¡ALERTA!"})
+            print('Notification Microservice Status:', response_notification.status_code)
+            print('Notification Microservice Content:', response_notification.content)
 
-            services = {"Authentication Microservice Status": response_auth.status_code, "Notification Microservice "
-                                                                                         "Status":
-                response_notification.status_code}
+            print('---------------------------------------------------------------')
+            response_signal_checker = requests.post(f"http://127.0.0.1:5004/signal/checker",
+                                                    json={"signal": True})
+            print('SignalChecker Microservice Status:', response_signal_checker.status_code)
+            print('SignalChecker Microservice Content:', response_signal_checker.content)
+
+            print('---------------------------------------------------------------')
+            services = {"Authentication Microservice Status": response_auth.status_code,
+                        "Notification Microservice Status": response_notification.status_code,
+                        "SignalChecker Microservice Status:": response_signal_checker.status_code,
+                        }
             json_services = jsonify(services)
 
             return json_services

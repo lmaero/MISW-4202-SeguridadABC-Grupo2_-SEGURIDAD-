@@ -14,10 +14,10 @@ for i in ${process}:; do
     if [[ ${i} == *":"* ]];
     then        
         process_id=`echo ${i} |cut -d ':' -f 1`
-        echo "Process id to kill ${process_id}"
-        kill ${process_id}
+        echo "Process id killed ${process_id}"
+        kill ${process_id}        
     else
-        echo "Process id to kill ${i}"
+        echo "Process id killed ${i}"
         kill ${i}
     fi
 done

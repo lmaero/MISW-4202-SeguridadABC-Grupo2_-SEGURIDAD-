@@ -8,6 +8,8 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = False
 jwt = JWTManager(app)
 api = Api(app)
 
+def imprime_adios():
+    print("adios mundo")
 
 class VistaNotification(Resource):
     def post(self):
@@ -18,6 +20,5 @@ class VistaNotification(Resource):
         print('Notificacion a POLICIA!!', response)
         print('Notificacion a FAMILIARES!!', response)
         return response, 200
-
 
 api.add_resource(VistaNotification, '/notification/send')

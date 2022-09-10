@@ -1,6 +1,7 @@
 import requests
 from flask import Flask, request
 from flask_restful import Api, Resource
+import general_queue as gq
 
 app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = "este_secreto_no_debe_de_saberse"  # Change this!
@@ -11,7 +12,9 @@ api = Api(app)
 class VistaSignalChecker(Resource):
     def post(self):
         signal = request.json["signal"]
-        if signal:
+        #gq.imprime_esto()
+        gq.imprime_adios()
+        if signal:            
             requests.post("http://127.0.0.1:5002/notification/send",
                           json={"alerta_tipo": "ALERTA", "alerta_msg": "¡ALERTA!"})
             print("Señal enviada a la cola de mensajería")

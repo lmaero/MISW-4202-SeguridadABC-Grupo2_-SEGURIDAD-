@@ -39,7 +39,7 @@
 
 5. Instalar dependencias con el comando
    ```shell
-   pip Install -r requirements.txt
+   pip install -r requirements.txt
    ```
 
 6. Establecer los permisos de ejecución en los siguientes archivos:
@@ -57,10 +57,12 @@
 8. El componente monitor empezará a escribir un log cada 10 segundos con el estado de los servicios, consulte el
    archivo: `log_services.txt`, en este punto todos los servicios retornarán 200 (servicio disponible).
 
-9. Opcional: Abrir Postman y hacer una solicitud GET al endpoint `http://localhost:5003/monitor/check_services`
+9. Opcional: Abrir Postman y hacer una solicitud GET al endpoint `http://localhost:5003/monitor/check_services` para
+   comprobar el estado de los microservicios.
 
 10. A través de Postman enviar una solicitud POST al microservicio sensor `http://localhost:5005/sensor/send`. La
     secuencia de eventos se describe a continuación:
+
 - El sensor envía una señal con criticidad aleatoria en el rango (0-5) incluyente.
 - La cola de mensajería implementada con la librería celery crea una nueva tarea que hace un solicitud POST al
   validador de señal (Signal Checker)
@@ -70,11 +72,13 @@
   mensajería, específicamente disparando una solicitud POST al microservicio Notification.
 - El microservicio de notificación registra el mensaje de la alerta junto con el tiempo en el archivo
   `log_signals.txt`
-- El llamado al servicio de emergencias es condicional dependiendo de la criticidad del sensor.
+- El llamado al servicio de emergencias es condicional dependiendo de la criticidad de la señal emitida por el sensor.
 
 11. Para comprobar que todos los microservicios continúan funcionando así el servicio de autenticación no esté
-    disponible, ejecutar en la terminal el script. Esto inhabilitará el servicio. Puede comprobarlo en el archivo
-    `log_services.txt` (Está establecido un tiempo de 10 segundos entre cada ejecución del componente Monitor)
+    disponible, ejecutar en la terminal el script (kill_authentication.sh). Esto inhabilitará el servicio. Puede
+    comprobarlo en el archivo `log_services.txt` (Está establecido un tiempo de 10 segundos entre cada ejecución del
+    componente Monitor)
+
    ```shell
    ./kill_authentication.sh
    ```

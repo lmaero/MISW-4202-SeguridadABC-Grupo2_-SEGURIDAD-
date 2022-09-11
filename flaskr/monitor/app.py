@@ -1,7 +1,12 @@
+import threading
+from datetime import datetime
+
 import requests
 from flask import Flask, jsonify
 from flask_jwt_extended import JWTManager
 from flask_restful import Api, Resource
+
+from general_queue import new_log_monitor
 
 app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = "este_secreto_no_debe_de_saberse"  # Change this!
@@ -22,6 +27,20 @@ class Bcolors:
     UNDERLINE = '\033[4m'
 
 
+def check_microservices():
+    requests.get('http://localhost:5003/monitor/check_services')
+
+
+def set_interval(func, sec):
+    def func_wrapper():
+        set_interval(func, sec)
+        func()
+
+    t = threading.Timer(sec, func_wrapper)
+    t.start()
+    return t
+
+
 class VistaMonitor(Resource):
     def get(self):
         services = {}
@@ -29,37 +48,36 @@ class VistaMonitor(Resource):
         try:
             print('---------------------------------------------------------------')
             print(Bcolors.WARNING + "AUTHENTICATION MICROSERVICE" + Bcolors.ENDC)
-
-            response_auth = requests.post(f"http://127.0.0.1:5001/auth/login", json={"usuario": "monitor"})
-            print('Authentication Microservice Status:', response_auth.status_code)
-            print('Authentication Microservice Content:', response_auth.content)
+            response_auth = requests.get(f"http://127.0.0.1:5001/auth/login")
+            print("Status: ", response_auth.status_code, "Content: ", response_auth.content)
             services["Authentication Microservice Status"] = response_auth.status_code
+            new_log_monitor("Authentication", response_auth.status_code, datetime.utcnow())
         except BaseException as error:
             services["Authentication Microservice Status"] = 503
             print("Authentication microservice is not available\n", error)
+            new_log_monitor("Authentication", 503, datetime.utcnow())
 
         try:
             print('---------------------------------------------------------------')
             print(Bcolors.WARNING + "NOTIFICATION MICROSERVICE" + Bcolors.ENDC)
-
-            response_notification = requests.post(f"http://127.0.0.1:5002/notification/send",
-                                                  json={"alerta_tipo": "ALERTA", "alerta_msg": "¡ALERTA!"})
-            print('Notification Microservice Status:', response_notification.status_code)
-            print('Notification Microservice Content:', response_notification.content)
+            response_notification = requests.get(f"http://127.0.0.1:5002/notification/send")
+            print("Status: ", response_notification.status_code, "Content: ", response_notification.content)
             services["Notification Microservice Status"] = response_notification.status_code
+            new_log_monitor("Notification", response_notification.status_code, datetime.utcnow())
         except BaseException as error:
             print("Notification microservice is not available\n", error)
+            new_log_monitor("Notification", 503, datetime.utcnow())
 
         try:
             print('---------------------------------------------------------------')
             print(Bcolors.WARNING + "SIGNAL CHECKER MICROSERVICE" + Bcolors.ENDC)
-
-            response_signal_checker = requests.post(f"http://127.0.0.1:5004/signal/checker", json={"signal": True})
-            print('SignalChecker Microservice Status:', response_signal_checker.status_code)
-            print('SignalChecker Microservice Content:', response_signal_checker.content)
+            response_signal_checker = requests.get(f"http://127.0.0.1:5004/signal/checker")
+            print("Status: ", response_signal_checker.status_code, "Content: ", response_signal_checker.content)
             services["SignalChecker Microservice Status"] = response_signal_checker.status_code
+            new_log_monitor("SignalChecker", response_signal_checker.status_code, datetime.utcnow())
         except BaseException as error:
             print("SignalChecker microservice is not available\n", error)
+            new_log_monitor("SignalChecker", 503, datetime.utcnow())
 
         finally:
             print('---------------------------------------------------------------')
@@ -68,3 +86,4 @@ class VistaMonitor(Resource):
 
 
 api.add_resource(VistaMonitor, '/monitor/check_services')
+set_interval(check_microservices, 10)

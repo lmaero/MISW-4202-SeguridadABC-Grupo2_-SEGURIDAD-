@@ -1,1 +1,1 @@
-from .app import *
+from .general_queue import *

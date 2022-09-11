@@ -15,5 +15,8 @@ class VistaAuth(Resource):
         token_de_acceso = create_access_token(identity=usuario)
         return {"mensaje": "Inicio de sesión exitoso", "token": token_de_acceso}
 
+    def get(self):
+        return "OK", 200
+
 
 api.add_resource(VistaAuth, '/auth/login')

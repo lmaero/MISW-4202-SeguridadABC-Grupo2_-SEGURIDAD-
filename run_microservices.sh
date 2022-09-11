@@ -11,3 +11,6 @@ flask run -p 5003 &
 cd ..
 cd signal_checker
 flask run -p 5004 &
+cd ..
+cd sensor
+flask run -p 5005 &

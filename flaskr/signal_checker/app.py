@@ -1,7 +1,9 @@
-import requests
+from datetime import datetime
+
 from flask import Flask, request
 from flask_restful import Api, Resource
-import general_queue as gq
+
+from general_queue import new_log_signal, send_notification
 
 app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = "este_secreto_no_debe_de_saberse"  # Change this!
@@ -11,17 +13,17 @@ api = Api(app)
 
 class VistaSignalChecker(Resource):
     def post(self):
-        signal = request.json["signal"]
-        #gq.imprime_esto()
-        gq.imprime_adios()
-        if signal:            
-            requests.post("http://127.0.0.1:5002/notification/send",
-                          json={"alerta_tipo": "ALERTA", "alerta_msg": "¡ALERTA!"})
-            print("Señal enviada a la cola de mensajería")
+        sensor_criticality = request.json["signal"]
+        if sensor_criticality > 3:
+            new_log_signal('Señal validada', datetime.utcnow())
+            send_notification('Llamando a servicios de emergencia...')
             return "", 200
         else:
-            print("La señal de alarma fue validada y no representa ningún riesgo")
+            new_log_signal("La señal de alarma fue validada y no representa ningún riesgo", datetime.utcnow())
             return "", 200
 
+    def get(self):
+        return "OK", 200
 
-api.add_resource(VistaSignalChecker, '/signal/checker')
+
+api.add_resource(VistaSignalChecker, "/signal/checker")

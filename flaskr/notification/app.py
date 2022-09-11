@@ -1,6 +1,10 @@
+from datetime import datetime
+
 from flask import request, Flask
 from flask_jwt_extended import JWTManager
 from flask_restful import Api, Resource
+
+from general_queue import new_log_signal
 
 app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = "este_secreto_no_debe_de_saberse"  # Change this!
@@ -14,8 +18,11 @@ class VistaNotification(Resource):
         alerta_tipo = request.json["alerta_tipo"]
         alerta_msg = request.json["alerta_msg"]
         response = {"tipo": alerta_tipo, "msg": alerta_msg}
-        print('Nueva Notificación!!', response)
+        new_log_signal(alerta_msg, datetime.utcnow())
         return response, 200
+
+    def get(self):
+        return "OK", 200
 
 
 api.add_resource(VistaNotification, '/notification/send')

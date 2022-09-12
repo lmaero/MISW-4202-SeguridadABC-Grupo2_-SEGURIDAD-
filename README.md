@@ -9,6 +9,11 @@
 - Alonso Daniel Cantú Trejo
 - Luis Miguel Guzmán Pérez
 
+### Evidencia del experimento
+
+https://user-images.githubusercontent.com/60992168/189558728-e1d9b464-20e0-4258-b25f-33b63a2cc452.mp4
+
+
 ### Paso a paso
 
 1. Clonar repositorio con el comando:

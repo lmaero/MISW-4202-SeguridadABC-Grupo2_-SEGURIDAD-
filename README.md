@@ -11,7 +11,7 @@
 
 ### Evidencia del experimento
 
-https://user-images.githubusercontent.com/60992168/189558728-e1d9b464-20e0-4258-b25f-33b63a2cc452.mp4
+
 
 ### Colección de Postman
 [Descargar colección Postman. Requests](https://github.com/lmaero/MISW-4202-SeguridadABC-Grupo2/blob/main/experimento.postman_collection.json)
@@ -21,12 +21,12 @@ https://user-images.githubusercontent.com/60992168/189558728-e1d9b464-20e0-4258-
 1. Clonar repositorio con el comando:
 
    ```shell
-   git clone https://github.com/lmaero/MISW-4202-SeguridadABC-Grupo2
+   git clone https://github.com/lmaero/MISW-4202-SeguridadABC-Grupo2_-SEGURIDAD-.git
    ```
 
 2. Navegar al directorio clonado.
    ```shell
-   cd MISW-4202-SeguridadABC-Grupo2
+   cd MISW-4202-SeguridadABC-Grupo2_-SEGURIDAD-
    ```
 
 3. Dentro del directorio clonado, crear el entorno virtual con el comando
@@ -61,35 +61,28 @@ https://user-images.githubusercontent.com/60992168/189558728-e1d9b464-20e0-4258-
    ./run_microservices.sh
    ```
 
-8. El componente monitor empezará a escribir un log cada 10 segundos con el estado de los servicios, consulte el
-   archivo: `log_services.txt`, en este punto todos los servicios retornarán 200 (servicio disponible).
+8. El componente monitor fue pausado para evitar logs innecesarios en consola para este experimento. En este punto 
+   todos los servicios estarán disponibles, incluyendo el nuevo servicio de generación de tokens.
 
-9. Opcional: Abrir Postman y hacer una solicitud GET al endpoint `http://localhost:5003/monitor/check_services` para
-   comprobar el estado de los microservicios.
+9. A través de Postman enviar una solicitud POST al microservicio tokens `http://localhost:5006/tokens`. Como 
+   respuesta a esta solicitud deberá obtener un token de acceso, cómo se muestra en la imagen a continuación:
 
-10. A través de Postman enviar una solicitud POST al microservicio sensor `http://localhost:5005/sensor/send`. La
-    secuencia de eventos se describe a continuación:
+10. Copie y pegue este token de acceso, lo va a necesitar para realizar la siguiente solicitud, recuerde que el 
+    token expira en 1 minuto, por lo tanto, la siguiente solicitud debe ser realizada inmediatamente.
 
-- El sensor envía una señal con criticidad aleatoria en el rango (0-5) incluyente.
-- La cola de mensajería implementada con la librería celery crea una nueva tarea que hace un solicitud POST al
-  validador de señal (Signal Checker)
-- Se registra en el log la criticidad de la señal y la fecha de recepción de la misma.
-- Se registra en el log la validación de la señal.
-- El validador de señal establece que si la criticidad es mayor a 3 deberá enviar una nueva tarea a la cola de
-  mensajería, específicamente disparando una solicitud POST al microservicio Notification.
-- El microservicio de notificación registra el mensaje de la alerta junto con el tiempo en el archivo
-  `log_signals.txt`
-- El llamado al servicio de emergencias es condicional dependiendo de la criticidad de la señal emitida por el sensor.
+11. A través de Postman envíe una solicitud POST al microservicio sensor `http://localhost:5005/sensor/send`. 
+    Incluya en la pestaña Authorization de la solicitud el token copiado previamente. Seleccione Bearer Token en el 
+    Tipo de autorización, y pegue el token copiado previamente en el campo Token. Como resultado de esta solicitud 
+    obtendrá un número de criticidad de la señal, este es el comportamiento esperado del sistema cuando se usa un 
+    usuario que se encuentre en base de datos y provea un token válido.
 
-11. Para comprobar que todos los microservicios continúan funcionando así el servicio de autenticación no esté
-    disponible, ejecutar en la terminal el script (kill_authentication.sh). Esto inhabilitará el servicio. Puede
-    comprobarlo en el archivo `log_services.txt` (Está establecido un tiempo de 10 segundos entre cada ejecución del
-    componente Monitor)
+12. Para verificar el comportamiento del sistema con un token adulterado a modo de simulación de ataque, cambie 
+    cualquier caracter del token previamente ingresado en el campo Token y envíe la solicitud nuevamente. En la 
+    consola donde ejecutó los microservicios debería ver el mensaje "Se intentó usar un token de acceso adulterado", 
+    como se muestra en la imagen a continuación:
 
-   ```shell
-   ./kill_authentication.sh
-   ```
-
-12. Ejecute nuevamente el paso 10 para validar que las señales de los sensores se siguen recibiendo, analizando y
-    notificando (en caso que sea necesario) con total normalidad, a pesar de que el servicio de autenticación no
-    esté disponible.
+13. Para verificar el comportamiento del sistema con un token válido pero un usuario no registrado en base de datos, 
+    genere un nuevo token cambiando el "usuario" de la solicitud a cualquier cadena de caracteres a excepción de las 
+    siguientes: "lmaero" o "acantu" o "cgalvez" o "abubu11". Repita la solicitud del paso 11, debería ver un mensaje 
+    en consola con el nombre del usuario que usted ingresó y el mensaje "El usuario no fue encontrado en la DB", tal 
+    como se muestra en las imágenes a continuación:

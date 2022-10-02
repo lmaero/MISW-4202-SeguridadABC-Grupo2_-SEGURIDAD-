@@ -14,3 +14,6 @@ flask run -p 5004 &
 cd ..
 cd sensor
 flask run -p 5005 &
+cd ..
+cd authorizer
+flask run -p 5006 &

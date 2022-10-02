@@ -1,6 +1,7 @@
 from flask import Flask, request
 from flask_jwt_extended import JWTManager, create_access_token
 from flask_restful import Api, Resource
+import datetime
 
 app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = "este_secreto_no_debe_de_saberse"  # Change this!
@@ -12,7 +13,7 @@ api = Api(app)
 class VistaToken(Resource):
     def post(self):
         usuario = request.json["usuario"]
-        token_de_acceso = create_access_token(identity=usuario, expires_delta=datetime.timedelta(minutes=1)
+        token_de_acceso = create_access_token(identity=usuario, expires_delta=datetime.timedelta(minutes=1))
         return token_de_acceso
 
 

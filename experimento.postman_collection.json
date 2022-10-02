@@ -1,137 +1,175 @@
 {
-  "info": {
-    "_postman_id": "5b7a33c8-abfc-4469-884a-825027543eb6",
-    "name": "experimento",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "16367637"
-  },
-  "item": [
-    {
-      "name": "auth_login",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"usuario\": \"lmaero\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://localhost:5001/auth/login",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "5001",
-          "path": [
-            "auth",
-            "login"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "monitor_check_services",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:5003/monitor/check_services",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "5003",
-          "path": [
-            "monitor",
-            "check_services"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "notification_notification",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"alerta_tipo\":\"Apertura de puerta\",\n    \"alerta_msg\":\"La puerta principal ha sido abierta\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://localhost:5002/notification/send",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "5002",
-          "path": [
-            "notification",
-            "send"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "signal_checker",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"signal\": true\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://localhost:5004/signal/checker",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "5004",
-          "path": [
-            "signal",
-            "checker"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "sensor",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:5005/sensor/send",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "5005",
-          "path": [
-            "sensor",
-            "send"
-          ]
-        }
-      },
-      "response": []
-    }
-  ]
+	"info": {
+		"_postman_id": "5b7a33c8-abfc-4469-884a-825027543eb6",
+		"name": "experimento",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16367637"
+	},
+	"item": [
+		{
+			"name": "auth_login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"usuario\": \"lmaero\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5001/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "monitor_check_services",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5003/monitor/check_services",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5003",
+					"path": [
+						"monitor",
+						"check_services"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "notification_notification",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"alerta_tipo\":\"Apertura de puerta\",\n    \"alerta_msg\":\"La puerta principal ha sido abierta\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5002/notification/send",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5002",
+					"path": [
+						"notification",
+						"send"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "signal_checker",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"signal\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5004/signal/checker",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5004",
+					"path": [
+						"signal",
+						"checker"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sensor",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY2NDczNjA0MywianRpIjoiMTY0NmQ0NmMtODc3My00NTIxLThiOGMtNGQ5Yzc3YWZhN2IzIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InByb2ZlIiwibmJmIjoxNjY0NzM2MDQzLCJleHAiOjE2NjQ3MzYxMDN9.MTQ_0F2ZJz6VxvMKN9a04U4gEBVEDKbIZiHADXozFnc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5005/sensor/send",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5005",
+					"path": [
+						"sensor",
+						"send"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"usuario\":\"lmaero\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5006/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5006",
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
 }

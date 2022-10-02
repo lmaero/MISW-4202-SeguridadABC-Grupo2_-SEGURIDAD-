@@ -11,10 +11,10 @@
 
 ### Evidencia del experimento
 
-
+https://user-images.githubusercontent.com/60992168/193471731-8c12644f-66ea-41c1-918c-b39478f54de4.mp4
 
 ### Colección de Postman
-[Descargar colección Postman. Requests](https://github.com/lmaero/MISW-4202-SeguridadABC-Grupo2/blob/main/experimento.postman_collection.json)
+[Descargar colección Postman. Requests](https://github.com/lmaero/MISW-4202-SeguridadABC-Grupo2_-SEGURIDAD-/blob/main/experimento.postman_collection.json)
 
 ### Paso a paso
 
@@ -66,6 +66,7 @@
 
 9. A través de Postman enviar una solicitud POST al microservicio tokens `http://localhost:5006/tokens`. Como 
    respuesta a esta solicitud deberá obtener un token de acceso, cómo se muestra en la imagen a continuación:
+![Solicitud Postman Tokens](https://user-images.githubusercontent.com/60992168/193471821-df3fd9bf-b91b-4e55-8473-5aed7bc45b75.png)
 
 10. Copie y pegue este token de acceso, lo va a necesitar para realizar la siguiente solicitud, recuerde que el 
     token expira en 1 minuto, por lo tanto, la siguiente solicitud debe ser realizada inmediatamente.
@@ -80,9 +81,16 @@
     cualquier caracter del token previamente ingresado en el campo Token y envíe la solicitud nuevamente. En la 
     consola donde ejecutó los microservicios debería ver el mensaje "Se intentó usar un token de acceso adulterado", 
     como se muestra en la imagen a continuación:
+    ![Respuesta Token Adulterado](https://user-images.githubusercontent.com/60992168/193471885-343cf9d6-07fd-4d5d-8b7c-1ec38ff50c6a.png)
+
 
 13. Para verificar el comportamiento del sistema con un token válido pero un usuario no registrado en base de datos, 
     genere un nuevo token cambiando el "usuario" de la solicitud a cualquier cadena de caracteres a excepción de las 
     siguientes: "lmaero" o "acantu" o "cgalvez" o "abubu11". Repita la solicitud del paso 11, debería ver un mensaje 
     en consola con el nombre del usuario que usted ingresó y el mensaje "El usuario no fue encontrado en la DB", tal 
     como se muestra en las imágenes a continuación:
+    
+    ![Respuesta Usuario No Registrado-Consola](https://user-images.githubusercontent.com/60992168/193471903-056f4428-8d63-465b-97a4-ba248e590d46.png)
+    ![Respuesta Usuario No Registrado-Postman](https://user-images.githubusercontent.com/60992168/193471917-63c92263-8868-47fb-be25-f3420b884976.png)
+
+

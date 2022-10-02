@@ -12,7 +12,7 @@ api = Api(app)
 class VistaToken(Resource):
     def post(self):
         usuario = request.json["usuario"]
-        token_de_acceso = create_access_token(identity=usuario)
+        token_de_acceso = create_access_token(identity=usuario, expires_delta=datetime.timedelta(minutes=1)
         return token_de_acceso
 
 

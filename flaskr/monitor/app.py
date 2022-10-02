@@ -86,4 +86,4 @@ class VistaMonitor(Resource):
 
 
 api.add_resource(VistaMonitor, '/monitor/check_services')
-set_interval(check_microservices, 10)
+# set_interval(check_microservices, 10)
